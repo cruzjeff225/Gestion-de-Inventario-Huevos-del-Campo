@@ -1,0 +1,175 @@
+﻿@model Gestión_de_Inventario_Huevos_del_Campo.Models.ProductosViewModel
+
+@{
+    ViewData["Title"] = "Gestión de Productos";
+}
+
+<style>
+    body {
+        background-color: #ede6e9;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        color: #171d18;
+        margin: 0;
+    }
+
+    h2 {
+        color: #007bff;
+        font-weight: 600;
+        margin-bottom: 1.5rem;
+    }
+
+    .form-group {
+        margin-bottom: 1rem;
+    }
+
+    .form-label {
+        font-weight: 500;
+    }
+
+    .form-control {
+        border-radius: 8px;
+        padding: 0.8rem;
+        border: 1px solid #ced4da;
+        transition: border-color 0.3s ease-in-out;
+    }
+
+        .form-control:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 0 0.2rem rgba(38, 143, 255, 0.25);
+        }
+
+    .form-select {
+        border-radius: 8px;
+        padding: 0.8rem;
+        border: 1px solid #ced4da;
+    }
+
+    .form-group .text-danger {
+        font-size: 0.875rem;
+    }
+
+    .btn-primary {
+        background-color: #007bff;
+        border-color: #007bff;
+        padding: 0.7rem 1.5rem;
+        border-radius: 8px;
+    }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+            border-color: #004085;
+        }
+
+    .btn-secondary {
+        background-color: #6c757d;
+        border-color: #6c757d;
+        padding: 0.7rem 1.5rem;
+        border-radius: 8px;
+    }
+
+        .btn-secondary:hover {
+            background-color: #5a6268;
+            border-color: #4e555b;
+        }
+
+    .mb-3 {
+        margin-bottom: 1.25rem;
+    }
+
+    .mt-3 {
+        margin-top: 1.25rem;
+    }
+
+    .card {
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+        border-radius: 10px;
+        padding: 2rem;
+        background-color: #ffffff;
+    }
+</style>
+
+<div class="container mt-5">
+    <h2>Nuevo Producto</h2>
+
+    <form asp-action="Create" method="post">
+        <div class="card">
+            <div class="card-body">
+
+                <div class="form-group">
+                    <label asp-for="NuevoProducto.Nombre" class="form-label">Nombre</label>
+                    <input asp-for="NuevoProducto.Nombre" class="form-control" />
+                    <span asp-validation-for="NuevoProducto.Nombre" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="NuevoProducto.Lote" class="form-label">Lote</label>
+                    <input asp-for="NuevoProducto.Lote" class="form-control" />
+                    <span asp-validation-for="NuevoProducto.Lote" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="NuevoProducto.PrecioCompra" class="form-label">Precio Compra</label>
+                    <input asp-for="NuevoProducto.PrecioCompra" class="form-control" />
+                    <span asp-validation-for="NuevoProducto.PrecioCompra" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Precio Venta</label>
+                    <input id="precioVenta" class="form-control" readonly />
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="NuevoProducto.Cantidad" class="form-label">Cantidad</label>
+                    <input asp-for="NuevoProducto.Cantidad" class="form-control" />
+                    <span asp-validation-for="NuevoProducto.Cantidad" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="NuevoProducto.FechaVencimiento" class="form-label">Fecha Vencimiento</label>
+                    <input asp-for="NuevoProducto.FechaVencimiento" class="form-control" type="date" min="@DateTime.Today.AddDays(1).ToString("yyyy-MM-dd")" />
+                    <span asp-validation-for="NuevoProducto.FechaVencimiento" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="NuevoProducto.Estado" class="form-label">Estado</label>
+                    <select asp-for="NuevoProducto.Estado" class="form-select">
+                        <option value="true">Activo</option>
+                    </select>
+                    <span asp-validation-for="NuevoProducto.Estado" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary">Guardar</button>
+                    <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+                </div>
+
+            </div>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const inputCompra = document.getElementById('NuevoProducto_PrecioCompra');
+            const inputVenta = document.getElementById('precioVenta'); // para input readonly
+            const textoVenta = document.getElementById('precioVentaTexto'); // para texto plano
+
+            function calcularPrecioVenta() {
+                const valor = parseFloat(inputCompra.value);
+                if (!isNaN(valor) && valor > 0) {
+                    const precioVenta = (valor * 1.30).toFixed(2);
+                    if (inputVenta) inputVenta.value = precioVenta;
+                    if (textoVenta) textoVenta.textContent = '$' + precioVenta;
+                } else {
+                    if (inputVenta) inputVenta.value = '';
+                    if (textoVenta) textoVenta.textContent = '-';
+                }
+            }
+
+            inputCompra.addEventListener('input', calcularPrecioVenta);
+        });
+    </script>
+}
