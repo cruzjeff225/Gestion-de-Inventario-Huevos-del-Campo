@@ -1,0 +1,41 @@
+﻿@model Gestión_de_Inventario_Huevos_del_Campo.Models.Venta
+
+@{
+    ViewData["Title"] = "Detalle de Venta";
+}
+
+<h2 class="mb-4">Detalle de la Venta</h2>
+
+@if (Model.Anulada)
+{
+    <div class="alert alert-warning">
+        <strong>⚠ Esta venta ha sido ANULADA.</strong>
+    </div>
+}
+
+<p><strong>Fecha:</strong> @Model.Fecha.ToString("dd/MM/yyyy HH:mm")</p>
+<p><strong>Total:</strong> @Model.Total.ToString("C", new System.Globalization.CultureInfo("es-SV"))</p>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Producto</th>
+            <th>Cantidad</th>
+            <th>Precio Unitario</th>
+            <th>Subtotal</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Detalles)
+        {
+            <tr>
+                <td>@item.Producto.Nombre</td>
+                <td>@item.Cantidad</td>
+                <td>@item.PrecioUnitario.ToString("C", new System.Globalization.CultureInfo("es-SV"))</td>
+                <td>@item.Subtotal.ToString("C", new System.Globalization.CultureInfo("es-SV"))</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<a asp-action="Index" class="btn btn-secondary">Volver</a>

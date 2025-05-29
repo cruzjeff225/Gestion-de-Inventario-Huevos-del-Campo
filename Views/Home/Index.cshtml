@@ -6,10 +6,17 @@
     <h1 class="display-4 text-center mb-5">Bienvenido</h1>
 
     <div class="row justify-content-center">
-        <div class="col-md-6 col-lg-4">
-            <a class="btn btn-success" asp-controller="Productos" asp-action="Index">
+        <div class="col-md-4 mb-3">
+            <a class="btn btn-success w-100" asp-controller="Productos" asp-action="Index">
                 <i class="bi bi-box-seam me-2"></i> Ver Productos
+            </a>
+        </div>
+
+        <div class="col-md-4 mb-3">
+            <a class="btn btn-primary w-100" asp-controller="Ventas" asp-action="Index">
+                <i class="bi bi-cart-check me-2"></i> Gestión de Ventas
             </a>
         </div>
     </div>
 </div>
+
