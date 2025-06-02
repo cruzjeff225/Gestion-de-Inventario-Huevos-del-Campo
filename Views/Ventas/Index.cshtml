@@ -1,0 +1,65 @@
+﻿@model List<Gestión_de_Inventario_Huevos_del_Campo.Models.Venta>
+
+@{
+    ViewData["Title"] = "Ventas Realizadas";
+}
+
+<h2 class="mb-4">Ventas Realizadas</h2>
+
+@if (TempData["Mensaje"] != null)
+{
+    <div class="alert alert-success">@TempData["Mensaje"]</div>
+}
+
+ <div class="mb-3 d-flex gap-2">
+    <a asp-action="Create" class="btn btn-success">
+        <i class="bi bi-cart-plus me-2"></i> Registrar Nueva Venta
+    </a>
+
+    <a asp-action="ExportarPdf" class="btn btn-outline-danger">
+        <i class="bi bi-file-earmark-pdf me-2"></i> Exportar PDF
+    </a>
+ </div>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Fecha</th>
+            <th>Total</th>
+            <th>Estado</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var venta in Model)
+        {
+            <tr class="@(venta.Anulada ? "table-secondary" : "")">
+                <td>@venta.Fecha.ToString("dd/MM/yyyy HH:mm")</td>
+                <td>@venta.Total.ToString("C", new System.Globalization.CultureInfo("es-SV"))</td>
+                <td>
+                    @if (venta.Anulada)
+                    {
+                        <span class="badge bg-secondary">Anulada</span>
+                    }
+                    else
+                    {
+                        <span class="badge bg-success">Activa</span>
+                    }
+                </td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@venta.Id" class="btn btn-info btn-sm">Detalle</a>
+
+                    @if (!venta.Anulada)
+                    {
+                        <form asp-action="Anular" asp-route-id="@venta.Id" method="post" class="d-inline">
+                            @Html.AntiForgeryToken()
+                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('¿Estás seguro de que deseas anular esta venta?')">
+                                Anular
+                            </button>
+                        </form>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

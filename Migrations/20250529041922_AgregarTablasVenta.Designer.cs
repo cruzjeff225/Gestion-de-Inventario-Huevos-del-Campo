@@ -4,6 +4,7 @@ using Gestión_de_Inventario_Huevos_del_Campo.Db;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Gestión_de_Inventario_Huevos_del_Campo.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250529041922_AgregarTablasVenta")]
+    partial class AgregarTablasVenta
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -106,11 +109,6 @@ namespace Gestión_de_Inventario_Huevos_del_Campo.Migrations
 
                     b.Property<bool>("Anulada")
                         .HasColumnType("bit");
-
-                    b.Property<string>("Cliente")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
 
                     b.Property<DateTime>("Fecha")
                         .HasColumnType("datetime2");
