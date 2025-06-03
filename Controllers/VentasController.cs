@@ -29,13 +29,15 @@ namespace Gestión_de_Inventario_Huevos_del_Campo.Controllers
         // Guardar venta
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([FromForm] Venta venta, [FromForm] int[] productoIds, [FromForm] int[] cantidades)
+        public async Task<IActionResult> Create(string Cliente, int[] productoIds, int[] cantidades)
+
         {
             if (productoIds.Length != cantidades.Length)
             {
                 ModelState.AddModelError("", "Error en los productos enviados.");
                 ViewBag.Productos = _context.Productos.Where(p => p.Estado && p.Cantidad > 0).ToList();
-                return View();
+                var ventaError = new Venta { Cliente = Cliente };
+                return View("Create", ventaError);
             }
 
             decimal total = 0;
@@ -48,7 +50,8 @@ namespace Gestión_de_Inventario_Huevos_del_Campo.Controllers
                 {
                     ModelState.AddModelError("", $"No hay suficiente stock del producto: {producto?.Nombre ?? "Desconocido"}");
                     ViewBag.Productos = _context.Productos.Where(p => p.Estado && p.Cantidad > 0).ToList();
-                    return View();
+                    var ventaError = new Venta { Cliente = Cliente };
+                    return View("Create", ventaError);
                 }
 
                 decimal subtotal = producto.PrecioVenta * cantidades[i];
@@ -65,9 +68,14 @@ namespace Gestión_de_Inventario_Huevos_del_Campo.Controllers
                 producto.Cantidad -= cantidades[i];
             }
 
-            venta.Fecha = DateTime.Now;
-            venta.Total = total;
-            venta.Detalles = detalles;
+            var venta = new Venta
+            {
+                Cliente = Cliente,
+                Fecha = DateTime.Now,
+                Total = total,
+                Detalles = detalles
+            };
+
 
             _context.Ventas.Add(venta);
             await _context.SaveChangesAsync();

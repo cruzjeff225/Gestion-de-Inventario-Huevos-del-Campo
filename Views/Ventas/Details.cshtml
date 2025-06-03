@@ -24,6 +24,8 @@
             <th>Precio Unitario</th>
             <th>Subtotal</th>
         </tr>
+        <a asp-action="Index" asp-controller="Ventas" class="btn btn-secondary">Atras</a>
+
     </thead>
     <tbody>
         @foreach (var item in Model.Detalles)
@@ -38,4 +40,3 @@
     </tbody>
 </table>
 
-<a asp-action="Index" class="btn btn-secondary">Volver</a>

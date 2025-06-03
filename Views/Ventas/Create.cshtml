@@ -7,6 +7,16 @@
 
 <h2 class="mb-4">Registrar Venta</h2>
 
+@if (!ViewData.ModelState.IsValid)
+{
+    <div class="alert alert-danger">
+        @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+        {
+            <div><i class="bi bi-exclamation-triangle-fill me-2"></i>@error.ErrorMessage</div>
+        }
+    </div>
+}
+
 <form asp-action="Create" method="post">
     <div class="mb-3">
         <label class="form-label">Cliente</label>
@@ -40,5 +50,6 @@
     <div class="mt-4">
         <button type="submit" class="btn btn-success">Registrar Venta</button>
         <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+
     </div>
 </form>
