@@ -140,7 +140,7 @@ namespace Gestión_de_Inventario_Huevos_del_Campo.Controllers
             return View(venta);
         }
 
-        // Exportar ventas a PDF con QuestPDF
+        // Exportar ventas a PDF 
         [HttpGet]
         public async Task<IActionResult> ExportarPdf()
         {
