@@ -19,7 +19,7 @@
 
 <form asp-action="Create" method="post">
     <div class="mb-3">
-        <label class="form-label">Cliente</label>
+        <label asp-for="Cliente" class="form-label">Cliente</label>
         <input asp-for="Cliente" class="form-control" />
         <span asp-validation-for="Cliente" class="text-danger"></span>
     </div>
@@ -35,21 +35,30 @@
                 <label class="form-check-label" for="producto_@i">
                     @productos[i].Nombre (@productos[i].Cantidad disponibles)
                 </label>
-
                 <input type="number" name="cantidades" class="form-control d-inline w-auto ms-2" min="1" placeholder="Cantidad" />
             </div>
         }
     }
     else
     {
-        <div class="alert alert-warning">
-            No hay productos disponibles para registrar una venta.
-        </div>
+        <div class="alert alert-warning">No hay productos disponibles para registrar una venta.</div>
     }
 
     <div class="mt-4">
         <button type="submit" class="btn btn-success">Registrar Venta</button>
         <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
-
     </div>
 </form>
+
+@section Scripts {
+    <script>
+        document.querySelector('form').addEventListener('submit', function (e) {
+            const seleccionados = document.querySelectorAll('input[name="productoIds"]:checked');
+            if (seleccionados.length === 0) {
+                e.preventDefault();
+                alert("Debe seleccionar al menos un producto.");
+            }
+        });
+    </script>
+}
+

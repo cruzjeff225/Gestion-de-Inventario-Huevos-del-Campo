@@ -30,52 +30,69 @@ namespace Gestión_de_Inventario_Huevos_del_Campo.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(string Cliente, int[] productoIds, int[] cantidades)
-
         {
-            if (productoIds.Length != cantidades.Length)
-            {
+            ViewBag.Productos = _context.Productos.Where(p => p.Estado && p.Cantidad > 0).ToList();
+
+            if (string.IsNullOrWhiteSpace(Cliente) || Cliente.Trim().Length < 3)
+                ModelState.AddModelError("Cliente", "Debe ingresar un nombre de cliente válido (mínimo 3 caracteres).");
+
+            if (productoIds == null || cantidades == null || productoIds.Length != cantidades.Length)
                 ModelState.AddModelError("", "Error en los productos enviados.");
-                ViewBag.Productos = _context.Productos.Where(p => p.Estado && p.Cantidad > 0).ToList();
-                var ventaError = new Venta { Cliente = Cliente };
-                return View("Create", ventaError);
-            }
+
+            if (productoIds != null && productoIds.Length == 0)
+                ModelState.AddModelError("", "Debe seleccionar al menos un producto.");
+
+            if (cantidades != null && cantidades.Any(c => c <= 0))
+                ModelState.AddModelError("", "Todas las cantidades deben ser mayores a 0.");
 
             decimal total = 0;
             var detalles = new List<DetalleVenta>();
 
-            for (int i = 0; i < productoIds.Length; i++)
+            if (productoIds != null && cantidades != null)
             {
-                var producto = await _context.Productos.FindAsync(productoIds[i]);
-                if (producto == null || producto.Cantidad < cantidades[i])
+                for (int i = 0; i < productoIds.Length; i++)
                 {
-                    ModelState.AddModelError("", $"No hay suficiente stock del producto: {producto?.Nombre ?? "Desconocido"}");
-                    ViewBag.Productos = _context.Productos.Where(p => p.Estado && p.Cantidad > 0).ToList();
-                    var ventaError = new Venta { Cliente = Cliente };
-                    return View("Create", ventaError);
+                    var producto = await _context.Productos.FindAsync(productoIds[i]);
+
+                    if (producto == null)
+                    {
+                        ModelState.AddModelError("", $"Producto con ID {productoIds[i]} no encontrado.");
+                        continue;
+                    }
+
+                    if (producto.Cantidad < cantidades[i])
+                    {
+                        ModelState.AddModelError("", $"No hay suficiente stock del producto: {producto.Nombre}");
+                        continue;
+                    }
+
+                    decimal subtotal = producto.PrecioVenta * cantidades[i];
+
+                    total += subtotal;
+
+                    detalles.Add(new DetalleVenta
+                    {
+                        ProductoId = producto.Id,
+                        Cantidad = cantidades[i],
+                        PrecioUnitario = producto.PrecioVenta,
+                        Subtotal = subtotal
+                    });
+
+                    producto.Cantidad -= cantidades[i];
                 }
-
-                decimal subtotal = producto.PrecioVenta * cantidades[i];
-                total += subtotal;
-
-                detalles.Add(new DetalleVenta
-                {
-                    ProductoId = producto.Id,
-                    Cantidad = cantidades[i],
-                    PrecioUnitario = producto.PrecioVenta,
-                    Subtotal = subtotal
-                });
-
-                producto.Cantidad -= cantidades[i];
             }
+
+
+            if (!ModelState.IsValid)
+                return View("Create", new Venta { Cliente = Cliente });
 
             var venta = new Venta
             {
-                Cliente = Cliente,
+                Cliente = Cliente.Trim(),
                 Fecha = DateTime.Now,
                 Total = total,
                 Detalles = detalles
             };
-
 
             _context.Ventas.Add(venta);
             await _context.SaveChangesAsync();
@@ -83,6 +100,8 @@ namespace Gestión_de_Inventario_Huevos_del_Campo.Controllers
             TempData["Mensaje"] = "Venta registrada correctamente.";
             return RedirectToAction("Index");
         }
+
+
 
         // Anular una venta
         [HttpPost]

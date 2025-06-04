@@ -14,8 +14,10 @@ namespace Gestión_de_Inventario_Huevos_del_Campo.Models
         public decimal Total { get; set; }
 
         [Required]
-        [MaxLength(100)]
+        [StringLength(100, MinimumLength = 3, ErrorMessage = "El nombre del cliente debe tener al menos 3 caracteres.")]
+        [RegularExpression(@"^[\p{L}0-9\s\.\-']+$", ErrorMessage = "El nombre del cliente contiene caracteres inválidos.")]
         public string Cliente { get; set; } = string.Empty;
+
 
         public bool Anulada { get; set; } = false;
 
