@@ -1,0 +1,83 @@
+﻿@model Gestión_de_Inventario_Huevos_del_Campo.Models.Usuarios
+
+@{
+    ViewData["Title"] = "Eliminar Usuario";
+}
+
+<style>
+    body {
+        background-color: #ede6e9;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        color: #171d18;
+        margin: 0;
+    }
+
+    h2 {
+        color: #dc3545;
+        font-weight: 600;
+        margin-bottom: 1.5rem;
+    }
+
+    .card {
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+        border-radius: 10px;
+        padding: 2rem;
+        background-color: #ffffff;
+        margin-top: 2rem;
+    }
+
+    .form-group {
+        margin-bottom: 1rem;
+    }
+
+    .btn-danger {
+        background-color: #dc3545;
+        border-color: #dc3545;
+        padding: 0.7rem 1.5rem;
+        border-radius: 8px;
+    }
+
+        .btn-danger:hover {
+            background-color: #b52a37;
+            border-color: #a71d2a;
+        }
+
+    .btn-secondary {
+        background-color: #6c757d;
+        border-color: #6c757d;
+        padding: 0.7rem 1.5rem;
+        border-radius: 8px;
+    }
+
+        .btn-secondary:hover {
+            background-color: #5a6268;
+            border-color: #4e555b;
+        }
+</style>
+
+<div class="container mt-5">
+    <h2>¿Está seguro que desea eliminar este usuario?</h2>
+    <div class="card">
+        <div class="card-body">
+            <dl class="row">
+                <dt class="col-sm-3">Nombre</dt>
+                <dd class="col-sm-9">@Model.Nombre</dd>
+
+                <dt class="col-sm-3">Apellido</dt>
+                <dd class="col-sm-9">@Model.Apellido</dd>
+
+                <dt class="col-sm-3">Correo Electrónico</dt>
+                <dd class="col-sm-9">@Model.CorreoElectronico</dd>
+
+                <dt class="col-sm-3">Fecha de Creación</dt>
+                <dd class="col-sm-9">@Model.FechaCreacion.ToString("dd/MM/yyyy HH:mm")</dd>
+            </dl>
+
+            <form asp-action="Delete" method="post">
+                <input type="hidden" asp-for="ID" />
+                <button type="submit" class="btn btn-danger">Eliminar</button>
+                <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+            </form>
+        </div>
+    </div>
+</div>

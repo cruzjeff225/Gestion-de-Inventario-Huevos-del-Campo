@@ -1,0 +1,83 @@
+﻿@model Gestión_de_Inventario_Huevos_del_Campo.Models.UsuariosViewModel
+
+@{
+    ViewData["Title"] = "Gestión de Usuarios";
+}
+
+@if (TempData["Mensaje"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <i class="bi bi-check-circle-fill me-2"></i>
+        @TempData["Mensaje"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
+    </div>
+}
+
+<p>
+    <a asp-action="Create" class="btn btn-primary mb-3">
+        <i class="bi bi-plus-circle"></i> Agregar usuario
+    </a>
+</p>
+
+<h2 class="text-center mb-4">Buscar Usuario</h2>
+
+<form asp-action="Index" method="get" class="mb-4">
+    <div class="input-group">
+        <input asp-for="SearchString" class="form-control" placeholder="Buscar por nombre, apellido o correo..." />
+        <button type="submit" class="btn btn-primary">Buscar</button>
+        <a href="@Url.Action("Index")" class="btn btn-outline-secondary">Limpiar</a>
+    </div>
+</form>
+
+<h2 class="text-center mt-5 mb-4">Usuarios Registrados</h2>
+
+<table class="table table-bordered table-striped table-hover shadow-sm">
+    <thead class="table-light text-center">
+        <tr>
+            <th>Nombre</th>
+            <th>Apellido</th>
+            <th>Correo Electrónico</th>
+            <th>Fecha de Creación</th>
+            <th>Acción</th>
+        </tr>
+    </thead>
+    <tbody class="text-center">
+        @if (Model.ListaUsuarios.Any())
+        {
+            @foreach (var usuario in Model.ListaUsuarios)
+            {
+                <tr>
+                    <td>@usuario.Nombre</td>
+                    <td>@usuario.Apellido</td>
+                    <td>@usuario.CorreoElectronico</td>
+                    <td>@usuario.FechaCreacion.ToString("dd/MM/yyyy HH:mm")</td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@usuario.ID"
+                           class="btn btn-warning btn-sm" title="Editar usuario" data-bs-toggle="tooltip">
+                            <i class="bi bi-pencil-square"></i> Editar
+                        </a>
+                        <a asp-action="Delete" asp-route-id="@usuario.ID"
+                           class="btn btn-danger btn-sm" title="Eliminar usuario" data-bs-toggle="tooltip">
+                            <i class="bi bi-trash"></i> Eliminar
+                        </a>
+                    </td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="5" class="text-center">No se encontraron usuarios.</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@section Scripts {
+    <script>
+        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+        var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl)
+        })
+    </script>
+}
