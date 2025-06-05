@@ -66,7 +66,7 @@ namespace Gestión_de_Inventario_Huevos_del_Campo.Controllers
             {
                 viewModel.NuevoProducto.FechaRegistro = DateTime.Now; // Se asigna la fecha actual al registrar
 
-                // 👉 Calcular el precio de venta con el 30% de ganancia
+                // Calcular el precio de venta con el 30% de ganancia
                 viewModel.NuevoProducto.PrecioVenta = viewModel.NuevoProducto.PrecioCompra * 1.30m;
 
                 _context.Productos.Add(viewModel.NuevoProducto);
