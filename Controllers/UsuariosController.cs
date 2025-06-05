@@ -163,7 +163,6 @@ namespace Gestión_de_Inventario_Huevos_del_Campo.Controllers
                 return NotFound();
             }
 
-            // Si tienes un campo Estado, puedes desactivarlo aquí. Si no, elimina físicamente:
             _context.Usuarios.Remove(usuario);
             _context.SaveChanges();
             TempData["Mensaje"] = "Usuario eliminado correctamente.";
