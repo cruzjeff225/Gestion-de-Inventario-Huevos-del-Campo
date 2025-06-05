@@ -6,11 +6,48 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Gestión_de_Inventario_Huevos_del_Campo.Migrations
 {
     /// <inheritdoc />
-    public partial class AgregarTablasVenta : Migration
+    public partial class MigracionInicial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "Productos",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Nombre = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    Cantidad = table.Column<int>(type: "int", nullable: false),
+                    PrecioCompra = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    PrecioVenta = table.Column<decimal>(type: "decimal(18,2)", precision: 18, scale: 2, nullable: false),
+                    Lote = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    FechaRegistro = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    FechaVencimiento = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Estado = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Productos", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Usuarios",
+                columns: table => new
+                {
+                    ID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Nombre = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    Apellido = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    CorreoElectronico = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
+                    Contraseña = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    FechaCreacion = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Usuarios", x => x.ID);
+                });
+
             migrationBuilder.CreateTable(
                 name: "Ventas",
                 columns: table => new
@@ -19,6 +56,7 @@ namespace Gestión_de_Inventario_Huevos_del_Campo.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Fecha = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Total = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    Cliente = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     Anulada = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
@@ -71,6 +109,12 @@ namespace Gestión_de_Inventario_Huevos_del_Campo.Migrations
         {
             migrationBuilder.DropTable(
                 name: "DetallesVenta");
+
+            migrationBuilder.DropTable(
+                name: "Usuarios");
+
+            migrationBuilder.DropTable(
+                name: "Productos");
 
             migrationBuilder.DropTable(
                 name: "Ventas");

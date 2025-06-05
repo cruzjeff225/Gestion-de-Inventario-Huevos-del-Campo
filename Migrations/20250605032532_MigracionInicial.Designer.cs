@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Gestión_de_Inventario_Huevos_del_Campo.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250529041922_AgregarTablasVenta")]
-    partial class AgregarTablasVenta
+    [Migration("20250605032532_MigracionInicial")]
+    partial class MigracionInicial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -99,6 +99,42 @@ namespace Gestión_de_Inventario_Huevos_del_Campo.Migrations
                     b.ToTable("Productos");
                 });
 
+            modelBuilder.Entity("Gestión_de_Inventario_Huevos_del_Campo.Models.Usuarios", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
+
+                    b.Property<string>("Apellido")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("Contraseña")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("CorreoElectronico")
+                        .IsRequired()
+                        .HasMaxLength(150)
+                        .HasColumnType("nvarchar(150)");
+
+                    b.Property<DateTime>("FechaCreacion")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Nombre")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("Usuarios");
+                });
+
             modelBuilder.Entity("Gestión_de_Inventario_Huevos_del_Campo.Models.Venta", b =>
                 {
                     b.Property<int>("Id")
@@ -109,6 +145,11 @@ namespace Gestión_de_Inventario_Huevos_del_Campo.Migrations
 
                     b.Property<bool>("Anulada")
                         .HasColumnType("bit");
+
+                    b.Property<string>("Cliente")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<DateTime>("Fecha")
                         .HasColumnType("datetime2");

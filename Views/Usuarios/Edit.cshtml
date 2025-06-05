@@ -1,0 +1,135 @@
+﻿@model Gestión_de_Inventario_Huevos_del_Campo.Models.UsuariosViewModel
+
+@{
+    ViewData["Title"] = "Editar Usuario";
+}
+
+<style>
+    body {
+        background-color: #ede6e9;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        color: #171d18;
+        margin: 0;
+    }
+
+    h2 {
+        color: #007bff;
+        font-weight: 600;
+        margin-bottom: 1.5rem;
+    }
+
+    .form-group {
+        margin-bottom: 1rem;
+    }
+
+    .form-label {
+        font-weight: 500;
+    }
+
+    .form-control {
+        border-radius: 8px;
+        padding: 0.8rem;
+        border: 1px solid #ced4da;
+        transition: border-color 0.3s ease-in-out;
+    }
+
+        .form-control:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 0 0.2rem rgba(38, 143, 255, 0.25);
+        }
+
+    .form-group .text-danger {
+        font-size: 0.875rem;
+    }
+
+    .btn-primary {
+        background-color: #007bff;
+        border-color: #007bff;
+        padding: 0.7rem 1.5rem;
+        border-radius: 8px;
+    }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+            border-color: #004085;
+        }
+
+    .btn-secondary {
+        background-color: #6c757d;
+        border-color: #6c757d;
+        padding: 0.7rem 1.5rem;
+        border-radius: 8px;
+    }
+
+        .btn-secondary:hover {
+            background-color: #5a6268;
+            border-color: #4e555b;
+        }
+
+    .mb-3 {
+        margin-bottom: 1.25rem;
+    }
+
+    .mt-3 {
+        margin-top: 1.25rem;
+    }
+
+    .card {
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+        border-radius: 10px;
+        padding: 2rem;
+        background-color: #ffffff;
+    }
+</style>
+
+<div class="container mt-5">
+    <h2>Editar Usuario</h2>
+
+    <form asp-action="Edit" method="post">
+        <input type="hidden" asp-for="NuevoUsuario.ID" />
+        <div class="card">
+            <div class="card-body">
+
+                <div class="form-group">
+                    <label asp-for="NuevoUsuario.Nombre" class="form-label">Nombre</label>
+                    <input asp-for="NuevoUsuario.Nombre" class="form-control" />
+                    <span asp-validation-for="NuevoUsuario.Nombre" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="NuevoUsuario.Apellido" class="form-label">Apellido</label>
+                    <input asp-for="NuevoUsuario.Apellido" class="form-control" />
+                    <span asp-validation-for="NuevoUsuario.Apellido" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="NuevoUsuario.CorreoElectronico" class="form-label">Correo Electrónico</label>
+                    <input asp-for="NuevoUsuario.CorreoElectronico" class="form-control" />
+                    <span asp-validation-for="NuevoUsuario.CorreoElectronico" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="NuevoUsuario.Contraseña" class="form-label">Contraseña</label>
+                    <input asp-for="NuevoUsuario.Contraseña" class="form-control" type="password" />
+                    <span asp-validation-for="NuevoUsuario.Contraseña" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="NuevoUsuario.FechaCreacion" class="form-label">Fecha de Creación</label>
+                    <input asp-for="NuevoUsuario.FechaCreacion" class="form-control" type="datetime-local" readonly />
+                    <span asp-validation-for="NuevoUsuario.FechaCreacion" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+                    <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+                </div>
+
+            </div>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+}
