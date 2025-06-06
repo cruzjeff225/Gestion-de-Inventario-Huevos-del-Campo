@@ -1,10 +1,15 @@
-﻿using Gestión_de_Inventario_Huevos_del_Campo.Db;
+﻿using System.Security.Claims;
+using Gestión_de_Inventario_Huevos_del_Campo.Db;
 using Gestión_de_Inventario_Huevos_del_Campo.Models;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace Gestión_de_Inventario_Huevos_del_Campo.Controllers
 {
+    [Authorize]
     public class UsuariosController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -167,6 +172,62 @@ namespace Gestión_de_Inventario_Huevos_del_Campo.Controllers
             _context.SaveChanges();
             TempData["Mensaje"] = "Usuario eliminado correctamente.";
             return RedirectToAction("Index");
+        }
+
+
+        // Login
+        [AllowAnonymous]
+        public IActionResult Login()
+        {
+            return View(new LoginViewModel());
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Login(LoginViewModel model)
+        {
+            if (!ModelState.IsValid)
+                return View(model);
+
+            var usuario = await _context.Usuarios
+                .FirstOrDefaultAsync(u => u.CorreoElectronico == model.CorreoElectronico && u.Contraseña == model.Contraseña);
+
+            if (usuario == null)
+            {
+                ModelState.AddModelError("", "Correo o contraseña incorrectos.");
+                return View(model);
+            }
+
+            var claims = new List<Claim>
+            {
+                new Claim(ClaimTypes.Name, usuario.Nombre),
+                new Claim(ClaimTypes.NameIdentifier, usuario.ID.ToString()),
+                new Claim(ClaimTypes.Email, usuario.CorreoElectronico)
+            };
+
+            var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+            var authProperties = new AuthenticationProperties
+            {
+                IsPersistent = true
+            };
+
+            await HttpContext.SignInAsync(
+                CookieAuthenticationDefaults.AuthenticationScheme,
+                new ClaimsPrincipal(claimsIdentity),
+                authProperties);
+
+            return RedirectToAction("Index", "Home");
+        }
+
+        // Logout
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Logout()
+        {
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            return RedirectToAction("Login", "Usuarios");
         }
     }
 }

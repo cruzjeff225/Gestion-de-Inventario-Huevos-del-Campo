@@ -2,9 +2,11 @@
 using Gestión_de_Inventario_Huevos_del_Campo.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Gestión_de_Inventario_Huevos_del_Campo.Controllers
 {
+    [Authorize]
     public class ProductosController : Controller
     {
         private readonly ApplicationDbContext _context;

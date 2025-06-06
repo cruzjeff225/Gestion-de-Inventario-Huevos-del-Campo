@@ -1,9 +1,12 @@
 using System.Diagnostics;
 using Gestión_de_Inventario_Huevos_del_Campo.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Gestión_de_Inventario_Huevos_del_Campo.Controllers
 {
+
+    [Authorize]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
