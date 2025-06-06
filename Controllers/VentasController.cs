@@ -4,9 +4,11 @@ using Gestión_de_Inventario_Huevos_del_Campo.PDF;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using QuestPDF.Fluent;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Gestión_de_Inventario_Huevos_del_Campo.Controllers
 {
+    [Authorize]
     public class VentasController : Controller
     {
         private readonly ApplicationDbContext _context;

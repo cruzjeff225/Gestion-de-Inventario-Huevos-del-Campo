@@ -26,6 +26,12 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
                     </ul>
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <form asp-action="Logout" asp-controller="Usuarios" method="post" class="d-inline">
+                            <button type="submit" class="btn btn-link">Cerrar sesión</button>
+                        </form>
+                    }
                 </div>
             </div>
         </nav>

@@ -1,18 +1,20 @@
 ﻿using Gestión_de_Inventario_Huevos_del_Campo.Db;
 using Gestión_de_Inventario_Huevos_del_Campo.Models;
 using Gestión_de_Inventario_Huevos_del_Campo.PDF;
+using iTextSharp.text;
+using iTextSharp.text.pdf;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis;
 using Microsoft.EntityFrameworkCore;
 using QuestPDF.Fluent;
 using QuestPDF.Helpers;
-using iTextSharp.text;
-using iTextSharp.text.pdf;
 using iTextDocument = iTextSharp.text.Document;
 using PageSize = iTextSharp.text.PageSize;
 
 namespace Gestión_de_Inventario_Huevos_del_Campo.Controllers
 {
+    [Authorize]
     public class ReporteController : Controller
     {
         private readonly ApplicationDbContext _context;

@@ -1,0 +1,37 @@
+﻿@model Gestión_de_Inventario_Huevos_del_Campo.Models.LoginViewModel
+
+@{
+    ViewData["Title"] = "Iniciar Sesión";
+}
+
+<div class="container mt-5" style="max-width:400px;">
+    <h2 class="mb-4 text-center">Iniciar Sesión</h2>
+
+    @if (!ViewData.ModelState.IsValid && ViewData.ModelState.Values.SelectMany(v => v.Errors).Any())
+    {
+        <div class="alert alert-danger" role="alert">
+            @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+            {
+                <div>@error.ErrorMessage</div>
+            }
+        </div>
+    }
+
+    <form asp-action="Login" method="post">
+        <div class="mb-3">
+            <label asp-for="CorreoElectronico" class="form-label"></label>
+            <input asp-for="CorreoElectronico" class="form-control" />
+            <span asp-validation-for="CorreoElectronico" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="Contraseña" class="form-label"></label>
+            <input asp-for="Contraseña" class="form-control" type="password" />
+            <span asp-validation-for="Contraseña" class="text-danger"></span>
+        </div>
+        <button type="submit" class="btn btn-primary w-100">Ingresar</button>
+    </form>
+</div>
+
+@section Scripts {
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+}
