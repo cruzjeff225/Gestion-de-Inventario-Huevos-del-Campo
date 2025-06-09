@@ -4,39 +4,65 @@
     ViewData["Title"] = "Detalle de Venta";
 }
 
-<h2 class="mb-4">Detalle de la Venta</h2>
+<div class="container d-flex justify-content-center align-items-center min-vh-100">
+    <div class="product-form-card-modern shadow-sm border-0 w-100" style="max-width: 480px;">
+        <div class="card-body p-4 p-md-5">
+            <div class="text-center mb-4">
+                <div class="product-avatar-modern mx-auto mb-3" style="background: linear-gradient(135deg, #bfc7d1 60%, #e9ecef 100%);">
+                    <i class="fas fa-receipt fa-lg text-secondary"></i>
+                </div>
+                <h2 class="fw-semibold mb-2 modern-title">Detalle de la Venta</h2>
+                @if (Model.Anulada)
+                {
+                    <div class="alert alert-warning py-2 px-3 small rounded-3 mb-2 mt-3">
+                        <strong>⚠ Esta venta ha sido ANULADA.</strong>
+                    </div>
+                }
+            </div>
 
-@if (Model.Anulada)
-{
-    <div class="alert alert-warning">
-        <strong>⚠ Esta venta ha sido ANULADA.</strong>
+            <dl class="row mb-4 px-2">
+                <dt class="col-6 modern-label fw-semibold">Cliente</dt>
+                <dd class="col-6 text-end">@Model.Cliente</dd>
+
+                <dt class="col-6 modern-label fw-semibold">Fecha</dt>
+                <dd class="col-6 text-end">@Model.Fecha.ToString("dd/MM/yyyy HH:mm")</dd>
+
+                <dt class="col-6 modern-label fw-semibold">Total</dt>
+                <dd class="col-6 text-end">@Model.Total.ToString("C", new System.Globalization.CultureInfo("es-SV"))</dd>
+            </dl>
+
+            <div class="mb-3">
+                <h6 class="modern-label fw-semibold mb-2">Productos vendidos</h6>
+                <div class="table-responsive">
+                    <table class="table table-sm table-bordered align-middle mb-0">
+                        <thead class="table-light">
+                            <tr class="text-center">
+                                <th>Producto</th>
+                                <th>Cantidad</th>
+                                <th>Precio Unitario</th>
+                                <th>Subtotal</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-center">
+                            @foreach (var item in Model.Detalles)
+                            {
+                                <tr>
+                                    <td>@item.Producto.Nombre</td>
+                                    <td>@item.Cantidad</td>
+                                    <td>@item.PrecioUnitario.ToString("C", new System.Globalization.CultureInfo("es-SV"))</td>
+                                    <td>@item.Subtotal.ToString("C", new System.Globalization.CultureInfo("es-SV"))</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="d-flex justify-content-end mt-4">
+                <a asp-action="Index" asp-controller="Ventas" class="btn btn-modern-outline btn-sm">
+                    Volver
+                </a>
+            </div>
+        </div>
     </div>
-}
-
-<p><strong>Fecha:</strong> @Model.Fecha.ToString("dd/MM/yyyy HH:mm")</p>
-<p><strong>Total:</strong> @Model.Total.ToString("C", new System.Globalization.CultureInfo("es-SV"))</p>
-
-<table class="table table-striped">
-    <thead>
-        <tr>
-            <th>Producto</th>
-            <th>Cantidad</th>
-            <th>Precio Unitario</th>
-            <th>Subtotal</th>
-        </tr>
-        <a asp-action="Index" asp-controller="Ventas" class="btn btn-secondary">Atras</a>
-
-    </thead>
-    <tbody>
-        @foreach (var item in Model.Detalles)
-        {
-            <tr>
-                <td>@item.Producto.Nombre</td>
-                <td>@item.Cantidad</td>
-                <td>@item.PrecioUnitario.ToString("C", new System.Globalization.CultureInfo("es-SV"))</td>
-                <td>@item.Subtotal.ToString("C", new System.Globalization.CultureInfo("es-SV"))</td>
-            </tr>
-        }
-    </tbody>
-</table>
-
+</div>

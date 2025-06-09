@@ -4,51 +4,54 @@
     ViewData["Title"] = "Eliminando producto";
 }
 
-<div class="container mt-5">
-    <h1>Eliminar Producto</h1>
-    <h3>¿Estás seguro de que deseas eliminar este producto?</h3>
-
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-body">
-                    <dl class="row">
-                        <dt class="col-sm-4">Nombre</dt>
-                        <dd class="col-sm-8">@Model.Nombre</dd>
-
-                        <dt class="col-sm-4">Cantidad</dt>
-                        <dd class="col-sm-8">@Model.Cantidad</dd>
-
-                        <dt class="col-sm-4">Precio Compra</dt>
-                        <dd class="col-sm-8">@Model.PrecioCompra.ToString("C", new System.Globalization.CultureInfo("es-SV"))</dd>
-
-                        <dt class="col-sm-4">Precio Venta</dt>
-                        <dd class="col-sm-8">@Model.PrecioVenta.ToString("C", new System.Globalization.CultureInfo("es-SV"))</dd>
-
-                        <dt class="col-sm-4">Lote</dt>
-                        <dd class="col-sm-8">@Model.Lote</dd>
-
-                        <dt class="col-sm-4">Fecha Registro</dt>
-                        <dd class="col-sm-8">@Model.FechaRegistro.ToString("dd/MM/yyyy")</dd>
-
-                        <dt class="col-sm-4">Fecha Vencimiento</dt>
-                        <dd class="col-sm-8">@Model.FechaVencimiento.ToString("dd/MM/yyyy")</dd>
-
-                        <dt class="col-sm-4">Estado</dt>
-                        <dd class="col-sm-8">@(Model.Estado ? "Activo" : "Inactivo")</dd>
-                    </dl>
+<div class="container d-flex justify-content-center align-items-center min-vh-100">
+    <div class="product-form-card-modern shadow-sm border-0 w-100" style="max-width: 420px;">
+        <div class="card-body p-4 p-md-5">
+            <div class="text-center mb-4">
+                <div class="product-avatar-modern mx-auto mb-3" style="background: linear-gradient(135deg, #e0e7ef 60%, #f8fafc 100%);">
+                    <i class="fas fa-box-open fa-lg text-secondary"></i>
                 </div>
+                <h2 class="fw-semibold mb-1 modern-title" style="color:#e74c3c;">Eliminar Producto</h2>
+                <p class="text-muted mb-0 small">¿Estás seguro de que deseas eliminar este producto?</p>
             </div>
 
-            <form asp-action="Deleted" method="post" class="mt-4">
+            <dl class="row mb-4 px-2">
+                <dt class="col-6 modern-label fw-semibold">Nombre</dt>
+                <dd class="col-6 text-end">@Model.Nombre</dd>
+
+                <dt class="col-6 modern-label fw-semibold">Cantidad</dt>
+                <dd class="col-6 text-end">@Model.Cantidad</dd>
+
+                <dt class="col-6 modern-label fw-semibold">Precio Compra</dt>
+                <dd class="col-6 text-end">@Model.PrecioCompra.ToString("C", new System.Globalization.CultureInfo("es-SV"))</dd>
+
+                <dt class="col-6 modern-label fw-semibold">Precio Venta</dt>
+                <dd class="col-6 text-end">@Model.PrecioVenta.ToString("C", new System.Globalization.CultureInfo("es-SV"))</dd>
+
+                <dt class="col-6 modern-label fw-semibold">Lote</dt>
+                <dd class="col-6 text-end">@Model.Lote</dd>
+
+                <dt class="col-6 modern-label fw-semibold">Fecha Registro</dt>
+                <dd class="col-6 text-end">@Model.FechaRegistro.ToString("dd/MM/yyyy")</dd>
+
+                <dt class="col-6 modern-label fw-semibold">Fecha Vencimiento</dt>
+                <dd class="col-6 text-end">@Model.FechaVencimiento.ToString("dd/MM/yyyy")</dd>
+
+                <dt class="col-6 modern-label fw-semibold">Estado</dt>
+                <dd class="col-6 text-end">@(Model.Estado ? "Activo" : "Inactivo")</dd>
+            </dl>
+
+            <form asp-action="Deleted" method="post" autocomplete="off">
                 @Html.AntiForgeryToken()
                 <input type="hidden" asp-for="Id" />
-                <button type="submit" class="btn btn-danger">
-                    <i class="bi bi-trash me-2"></i> Confirmar Eliminación
-                </button>
-                <a asp-action="Index" class="btn btn-secondary">
-                    <i class="bi bi-arrow-left me-2"></i> Cancelar
-                </a>
+                <div class="d-flex gap-2">
+                    <button type="submit" class="btn btn-danger btn-sm flex-fill d-flex align-items-center justify-content-center gap-2" style="border-radius:0.5rem;">
+                        <i class="fas fa-trash"></i> Confirmar Eliminación
+                    </button>
+                    <a asp-action="Index" class="btn btn-modern-outline btn-sm flex-fill d-flex align-items-center justify-content-center gap-2" style="border-radius:0.5rem;">
+                        <i class="fas fa-arrow-left"></i> Cancelar
+                    </a>
+                </div>
             </form>
         </div>
     </div>

@@ -5,50 +5,71 @@
     var productos = ViewBag.Productos as List<Gestión_de_Inventario_Huevos_del_Campo.Models.Productos>;
 }
 
-<h2 class="mb-4">Registrar Venta</h2>
-
-@if (!ViewData.ModelState.IsValid)
-{
-    <div class="alert alert-danger">
-        @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
-        {
-            <div><i class="bi bi-exclamation-triangle-fill me-2"></i>@error.ErrorMessage</div>
-        }
-    </div>
-}
-
-<form asp-action="Create" method="post">
-    <div class="mb-3">
-        <label asp-for="Cliente" class="form-label">Cliente</label>
-        <input asp-for="Cliente" class="form-control" />
-        <span asp-validation-for="Cliente" class="text-danger"></span>
-    </div>
-
-    <h5>Seleccionar productos:</h5>
-
-    @if (productos != null && productos.Any())
-    {
-        @for (int i = 0; i < productos.Count; i++)
-        {
-            <div class="form-check mb-2">
-                <input type="checkbox" class="form-check-input" name="productoIds" value="@productos[i].Id" id="producto_@i" />
-                <label class="form-check-label" for="producto_@i">
-                    @productos[i].Nombre (@productos[i].Cantidad disponibles)
-                </label>
-                <input type="number" name="cantidades" class="form-control d-inline w-auto ms-2" min="1" placeholder="Cantidad" />
+<div class="container d-flex justify-content-center align-items-center min-vh-100">
+    <div class="product-form-card-modern shadow-sm border-0 w-100" style="max-width: 480px;">
+        <div class="card-body p-4 p-md-5">
+            <div class="text-center mb-4">
+                <div class="product-avatar-modern mx-auto mb-3">
+                    <i class="fas fa-cash-register text-white"></i>
+                </div>
+                <h2 class="fw-semibold mb-2 modern-title">Registrar Venta</h2>
+                <p class="text-secondary mb-0 small">Completa los datos para registrar una nueva venta</p>
             </div>
-        }
-    }
-    else
-    {
-        <div class="alert alert-warning">No hay productos disponibles para registrar una venta.</div>
-    }
 
-    <div class="mt-4">
-        <button type="submit" class="btn btn-success">Registrar Venta</button>
-        <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+            @if (!ViewData.ModelState.IsValid)
+            {
+                <div class="alert alert-danger">
+                    @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+                    {
+                        <div><i class="fas fa-exclamation-triangle me-2"></i>@error.ErrorMessage</div>
+                    }
+                </div>
+            }
+
+            <form asp-action="Create" method="post" autocomplete="off">
+                <div class="form-group mb-3">
+                    <label asp-for="Cliente" class="form-label fw-semibold modern-label">
+                        <i class="fas fa-user me-2 text-muted"></i>Cliente
+                    </label>
+                    <input asp-for="Cliente" class="form-control modern-input" placeholder="Nombre del cliente" />
+                    <span asp-validation-for="Cliente" class="text-danger small"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label fw-semibold modern-label">
+                        <i class="fas fa-boxes-stacked me-2 text-muted"></i>Seleccionar productos
+                    </label>
+                    @if (productos != null && productos.Any())
+                    {
+                        @for (int i = 0; i < productos.Count; i++)
+                        {
+                            <div class="form-check mb-2 d-flex align-items-center gap-2">
+                                <input type="checkbox" class="form-check-input" name="productoIds" value="@productos[i].Id" id="producto_@i" />
+                                <label class="form-check-label flex-fill" for="producto_@i">
+                                    @productos[i].Nombre <span class="text-muted small">(@productos[i].Cantidad disponibles)</span>
+                                </label>
+                                <input type="number" name="cantidades" class="form-control modern-input ms-2" min="1" placeholder="Cantidad" style="max-width: 100px;" />
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        <div class="alert alert-warning small">No hay productos disponibles para registrar una venta.</div>
+                    }
+                </div>
+
+                <div class="d-flex gap-2 mt-4">
+                    <button type="submit" class="btn btn-modern-primary btn-sm flex-fill d-flex align-items-center justify-content-center gap-2">
+                        <i class="fas fa-save"></i> Registrar Venta
+                    </button>
+                    <a asp-action="Index" class="btn btn-modern-outline btn-sm flex-fill d-flex align-items-center justify-content-center gap-2">
+                        <i class="fas fa-arrow-left"></i> Cancelar
+                    </a>
+                </div>
+            </form>
+        </div>
     </div>
-</form>
+</div>
 
 @section Scripts {
     <script>
@@ -61,4 +82,3 @@
         });
     </script>
 }
-
