@@ -19,27 +19,25 @@
     <a asp-action="Create" class="btn btn-primary mb-3">
         <i class="bi bi-cart-plus me-2"></i> Registrar Nueva Venta
     </a>
-    <a asp-action="Index" asp-controller="Home" class="btn btn-outline-secondary mb-3">
-        <i class="bi bi-arrow-left me-2"></i> Volver
-    </a>
 </div>
 
-<h2 class="text-center mt-4 mb-4">Ventas Realizadas</h2>
+<h2 class="text-center mt-5 mb-4">Ventas Realizadas</h2>
 
-<div class="table-responsive">
-    <table class="table table-bordered table-striped table-hover shadow-sm align-middle">
-        <thead class="table-light text-center">
-            <tr>
-                <th>Fecha</th>
-                <th>Total</th>
-                <th>Estado</th>
-                <th>Acciones</th>
-            </tr>
-        </thead>
-        <tbody class="text-center">
+<table class="table table-bordered table-striped table-hover shadow-sm">
+    <thead class="table-light text-center">
+        <tr>
+            <th>Fecha</th>
+            <th>Total</th>
+            <th>Estado</th>
+            <th>Acción</th>
+        </tr>
+    </thead>
+    <tbody class="text-center">
+        @if (Model.Any())
+        {
             @foreach (var venta in Model)
             {
-                <tr class="@(venta.Anulada ? "table-secondary" : "")">
+                <tr>
                     <td>@venta.Fecha.ToString("dd/MM/yyyy HH:mm")</td>
                     <td>@venta.Total.ToString("C", new System.Globalization.CultureInfo("es-SV"))</td>
                     <td>
@@ -53,31 +51,39 @@
                         }
                     </td>
                     <td>
-                        <form asp-action="Details" asp-route-id="@venta.Id" method="get" class="d-inline">
-                            <button type="submit" class="btn btn-info btn-sm" title="Detalle" data-bs-toggle="tooltip">
-                                Detalles
-                            </button>
-                        </form>
-                        @if (!venta.Anulada)
-                        {
-                            <form asp-action="Anular" asp-route-id="@venta.Id" method="post" class="d-inline">
-                                @Html.AntiForgeryToken()
-                                <button type="submit" class="btn btn-danger btn-sm" title="Anular" data-bs-toggle="tooltip"
-                                        onclick="return confirm('¿Estás seguro de que deseas anular esta venta?')">
-                                    <i class="bi bi-x-circle"></i> Anular
+                        <div class="d-flex gap-2 justify-content-center">
+                            <form asp-action="Details" asp-route-id="@venta.Id" method="get" class="d-inline">
+                                <button type="submit" class="btn btn-info btn-sm" title="Detalle" data-bs-toggle="tooltip">
+                                    Detalles
                                 </button>
                             </form>
-                        }
+                            @if (!venta.Anulada)
+                            {
+                                <form asp-action="Anular" asp-route-id="@venta.Id" method="post" class="d-inline">
+                                    @Html.AntiForgeryToken()
+                                    <button type="submit" class="btn btn-danger btn-sm" title="Anular" data-bs-toggle="tooltip"
+                                            onclick="return confirm('¿Estás seguro de que deseas anular esta venta?')">
+                                        <i class="bi bi-x-circle"></i> Anular
+                                    </button>
+                                </form>
+                            }
+                        </div>
                     </td>
                 </tr>
             }
-        </tbody>
-    </table>
-</div>
+        }
+        else
+        {
+            <tr>
+                <td colspan="4" class="text-center">No se encontraron ventas.</td>
+            </tr>
+        }
+    </tbody>
+</table>
 
 @section Scripts {
     <script>
-        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip']"))
+        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
         var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
             return new bootstrap.Tooltip(tooltipTriggerEl)
         })

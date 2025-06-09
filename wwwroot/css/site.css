@@ -293,3 +293,23 @@ a.elegant-link:hover {
     color: #2563eb;
     text-decoration: underline;
 }
+
+/* Personalización de feedback visual */
+/* Feedback visual moderno y sutil para inputs inválidos */
+/* Ajuste visual para inputs de cantidad y feedback en ventas */
+.cantidad-input {
+    min-width: 70px;
+    max-width: 90px;
+    display: block;
+    margin-right: 0;
+    margin-bottom: 0;
+}
+
+.invalid-feedback {
+    display: block;
+    max-width: 120px;
+    white-space: normal;
+    margin-left: 0;
+    margin-top: 0.15rem;
+    text-align: right;
+}
