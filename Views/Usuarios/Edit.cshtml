@@ -4,124 +4,63 @@
     ViewData["Title"] = "Editar Usuario";
 }
 
-<style>
-    body {
-        background-color: #ede6e9;
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        color: #171d18;
-        margin: 0;
-    }
-
-    h2 {
-        color: #007bff;
-        font-weight: 600;
-        margin-bottom: 1.5rem;
-    }
-
-    .form-group {
-        margin-bottom: 1rem;
-    }
-
-    .form-label {
-        font-weight: 500;
-    }
-
-    .form-control {
-        border-radius: 8px;
-        padding: 0.8rem;
-        border: 1px solid #ced4da;
-        transition: border-color 0.3s ease-in-out;
-    }
-
-        .form-control:focus {
-            border-color: #007bff;
-            box-shadow: 0 0 0 0.2rem rgba(38, 143, 255, 0.25);
-        }
-
-    .form-group .text-danger {
-        font-size: 0.875rem;
-    }
-
-    .btn-primary {
-        background-color: #007bff;
-        border-color: #007bff;
-        padding: 0.7rem 1.5rem;
-        border-radius: 8px;
-    }
-
-        .btn-primary:hover {
-            background-color: #0056b3;
-            border-color: #004085;
-        }
-
-    .btn-secondary {
-        background-color: #6c757d;
-        border-color: #6c757d;
-        padding: 0.7rem 1.5rem;
-        border-radius: 8px;
-    }
-
-        .btn-secondary:hover {
-            background-color: #5a6268;
-            border-color: #4e555b;
-        }
-
-    .mb-3 {
-        margin-bottom: 1.25rem;
-    }
-
-    .mt-3 {
-        margin-top: 1.25rem;
-    }
-
-    .card {
-        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-        border-radius: 10px;
-        padding: 2rem;
-        background-color: #ffffff;
-    }
-</style>
-
-<div class="container mt-5">
-    <h2>Editar Usuario</h2>
-
-    <form asp-action="Edit" method="post">
-        <input type="hidden" asp-for="NuevoUsuario.ID" />
-        <div class="card">
-            <div class="card-body">
-
-                <div class="form-group">
-                    <label asp-for="NuevoUsuario.Nombre" class="form-label">Nombre</label>
-                    <input asp-for="NuevoUsuario.Nombre" class="form-control" />
-                    <span asp-validation-for="NuevoUsuario.Nombre" class="text-danger"></span>
+<div class="container d-flex justify-content-center align-items-center min-vh-100">
+    <div class="product-form-card-modern shadow-sm border-0 w-100" style="max-width: 480px;">
+        <div class="card-body p-4 p-md-5">
+            <div class="text-center mb-4">
+                <div class="product-avatar-modern mx-auto mb-3" style="background: linear-gradient(135deg, #bfc7d1 60%, #e9ecef 100%);">
+                    <i class="fas fa-user-edit fa-lg text-secondary"></i>
                 </div>
-
-                <div class="form-group">
-                    <label asp-for="NuevoUsuario.Apellido" class="form-label">Apellido</label>
-                    <input asp-for="NuevoUsuario.Apellido" class="form-control" />
-                    <span asp-validation-for="NuevoUsuario.Apellido" class="text-danger"></span>
-                </div>
-
-                <div class="form-group">
-                    <label asp-for="NuevoUsuario.CorreoElectronico" class="form-label">Correo Electrónico</label>
-                    <input asp-for="NuevoUsuario.CorreoElectronico" class="form-control" />
-                    <span asp-validation-for="NuevoUsuario.CorreoElectronico" class="text-danger"></span>
-                </div>
-
-                <div class="form-group">
-                    <label asp-for="NuevoUsuario.Contraseña" class="form-label">Contraseña</label>
-                    <input asp-for="NuevoUsuario.Contraseña" class="form-control" type="password" />
-                    <span asp-validation-for="NuevoUsuario.Contraseña" class="text-danger"></span>
-                </div>
-
-                <div class="form-group">
-                    <button type="submit" class="btn btn-primary">Guardar Cambios</button>
-                    <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
-                </div>
-
+                <h2 class="fw-semibold mb-2 modern-title">Editar Usuario</h2>
+                <p class="text-secondary mb-0 small">Modifica los datos del usuario y guarda los cambios</p>
             </div>
+
+            <form asp-action="Edit" method="post" autocomplete="off">
+                <input type="hidden" asp-for="NuevoUsuario.ID" />
+
+                <div class="form-group mb-3">
+                    <label asp-for="NuevoUsuario.Nombre" class="form-label fw-semibold modern-label">
+                        <i class="fas fa-user me-2 text-muted"></i>Nombre
+                    </label>
+                    <input asp-for="NuevoUsuario.Nombre" class="form-control modern-input" placeholder="Nombre" />
+                    <span asp-validation-for="NuevoUsuario.Nombre" class="text-danger small"></span>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label asp-for="NuevoUsuario.Apellido" class="form-label fw-semibold modern-label">
+                        <i class="fas fa-user-tag me-2 text-muted"></i>Apellido
+                    </label>
+                    <input asp-for="NuevoUsuario.Apellido" class="form-control modern-input" placeholder="Apellido" />
+                    <span asp-validation-for="NuevoUsuario.Apellido" class="text-danger small"></span>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label asp-for="NuevoUsuario.CorreoElectronico" class="form-label fw-semibold modern-label">
+                        <i class="fas fa-envelope me-2 text-muted"></i>Correo Electrónico
+                    </label>
+                    <input asp-for="NuevoUsuario.CorreoElectronico" class="form-control modern-input" placeholder="Correo Electrónico" type="email" />
+                    <span asp-validation-for="NuevoUsuario.CorreoElectronico" class="text-danger small"></span>
+                </div>
+
+                <div class="form-group mb-4">
+                    <label asp-for="NuevoUsuario.Contraseña" class="form-label fw-semibold modern-label">
+                        <i class="fas fa-lock me-2 text-muted"></i>Contraseña
+                    </label>
+                    <input asp-for="NuevoUsuario.Contraseña" class="form-control modern-input" placeholder="Contraseña" type="password" />
+                    <span asp-validation-for="NuevoUsuario.Contraseña" class="text-danger small"></span>
+                </div>
+
+                <div class="d-flex gap-2">
+                    <button type="submit" class="btn btn-modern-primary btn-sm flex-fill d-flex align-items-center justify-content-center gap-2">
+                        Guardar Cambios
+                    </button>
+                    <a asp-action="Index" class="btn btn-modern-outline btn-sm flex-fill d-flex align-items-center justify-content-center gap-2">
+                        Cancelar
+                    </a>
+                </div>
+            </form>
         </div>
-    </form>
+    </div>
 </div>
 
 @section Scripts {

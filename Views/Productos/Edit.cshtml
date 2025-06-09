@@ -4,65 +4,81 @@
     ViewData["Title"] = "Editando producto";
 }
 
-<div class="container mt-5">
-    <h2>Editar Producto</h2>
-
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <form asp-action="Edit" method="post">
-                    <input type="hidden" asp-for="NuevoProducto.Id" />
-
-                    <div class="mb-3">
-                        <label asp-for="NuevoProducto.Nombre" class="form-label"></label>
-                        <input asp-for="NuevoProducto.Nombre" class="form-control" />
-                        <span asp-validation-for="NuevoProducto.Nombre" class="text-danger"></span>
-                    </div>
-
-                    <div class="mb-3">
-                        <label asp-for="NuevoProducto.Lote" class="form-label"></label>
-                        <input asp-for="NuevoProducto.Lote" class="form-control" />
-                        <span asp-validation-for="NuevoProducto.Lote" class="text-danger"></span>
-                    </div>
-
-                    <div class="mb-3">
-                        <label asp-for="NuevoProducto.PrecioCompra" class="form-label"></label>
-                        <input asp-for="NuevoProducto.PrecioCompra" class="form-control" />
-                        <span asp-validation-for="NuevoProducto.PrecioCompra" class="text-danger"></span>
-                    </div>
-
-                    <div class="mb-3">
-                        <label asp-for="NuevoProducto.Cantidad" class="form-label"></label>
-                        <input asp-for="NuevoProducto.Cantidad" class="form-control" />
-                        <span asp-validation-for="NuevoProducto.Cantidad" class="text-danger"></span>
-                    </div>
-
-                    <div class="mb-3">
-                        <label asp-for="NuevoProducto.FechaVencimiento" class="form-label"></label>
-                        <input asp-for="NuevoProducto.FechaVencimiento" class="form-control" type="date" min="@DateTime.Today.AddDays(1).ToString("yyyy-MM-dd")" />
-                        <span asp-validation-for="NuevoProducto.FechaVencimiento" class="text-danger"></span>
-                    </div>
-
-                    <div class="mb-3">
-                        <label asp-for="NuevoProducto.Estado" class="form-label">Estado</label>
-                        <select asp-for="NuevoProducto.Estado" class="form-select">
-                            <option value="">-- Seleccione un estado --</option>
-                            <option value="true">Activo</option>
-                            <option value="false">Inactivo</option>
-                        </select>
-                        <span asp-validation-for="NuevoProducto.Estado" class="text-danger"></span>
-                    </div>
-
-                    <div class="d-flex justify-content-between mt-4">
-                        <button type="submit" class="btn btn-primary">
-                            <i class="bi bi-save me-2"></i> Guardar
-                        </button>
-                        <a asp-action="Index" class="btn btn-secondary">
-                            <i class="bi bi-x-circle me-2"></i> Cancelar
-                        </a>
-                    </div>
-                </form>
+<div class="container d-flex justify-content-center align-items-center min-vh-100">
+    <div class="product-form-card-modern shadow-sm border-0 w-100" style="max-width: 480px;">
+        <div class="card-body p-4 p-md-5">
+            <div class="text-center mb-4">
+                <div class="product-avatar-modern mx-auto mb-3">
+                    <i class="fas fa-box fa-lg text-secondary"></i>
+                </div>
+                <h2 class="fw-semibold mb-2 modern-title">Editar Producto</h2>
+                <p class="text-secondary mb-0 small">Modifica los datos del producto y guarda los cambios</p>
             </div>
+
+            <form asp-action="Edit" method="post" autocomplete="off">
+                <input type="hidden" asp-for="NuevoProducto.Id" />
+
+                <div class="form-group mb-3">
+                    <label asp-for="NuevoProducto.Nombre" class="form-label fw-semibold modern-label">
+                        <i class="fas fa-tag me-2 text-muted"></i>Nombre
+                    </label>
+                    <input asp-for="NuevoProducto.Nombre" class="form-control modern-input" placeholder="Nombre" />
+                    <span asp-validation-for="NuevoProducto.Nombre" class="text-danger small"></span>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label asp-for="NuevoProducto.Lote" class="form-label fw-semibold modern-label">
+                        <i class="fas fa-barcode me-2 text-muted"></i>Lote
+                    </label>
+                    <input asp-for="NuevoProducto.Lote" class="form-control modern-input" placeholder="Lote" />
+                    <span asp-validation-for="NuevoProducto.Lote" class="text-danger small"></span>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label asp-for="NuevoProducto.PrecioCompra" class="form-label fw-semibold modern-label">
+                        <i class="fas fa-dollar-sign me-2 text-muted"></i>Precio Compra
+                    </label>
+                    <input asp-for="NuevoProducto.PrecioCompra" class="form-control modern-input" placeholder="Precio Compra" type="number" min="0" step="0.01" />
+                    <span asp-validation-for="NuevoProducto.PrecioCompra" class="text-danger small"></span>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label asp-for="NuevoProducto.Cantidad" class="form-label fw-semibold modern-label">
+                        <i class="fas fa-sort-numeric-up me-2 text-muted"></i>Cantidad
+                    </label>
+                    <input asp-for="NuevoProducto.Cantidad" class="form-control modern-input" placeholder="Cantidad" type="number" min="1" />
+                    <span asp-validation-for="NuevoProducto.Cantidad" class="text-danger small"></span>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label asp-for="NuevoProducto.FechaVencimiento" class="form-label fw-semibold modern-label">
+                        <i class="fas fa-calendar-alt me-2 text-muted"></i>Fecha Vencimiento
+                    </label>
+                    <input asp-for="NuevoProducto.FechaVencimiento" class="form-control modern-input" type="date" min="@DateTime.Today.AddDays(1).ToString("yyyy-MM-dd")" placeholder="Fecha Vencimiento" />
+                    <span asp-validation-for="NuevoProducto.FechaVencimiento" class="text-danger small"></span>
+                </div>
+
+                <div class="form-group mb-4">
+                    <label asp-for="NuevoProducto.Estado" class="form-label fw-semibold modern-label">
+                        <i class="fas fa-toggle-on me-2 text-muted"></i>Estado
+                    </label>
+                    <select asp-for="NuevoProducto.Estado" class="form-select modern-input">
+                        <option value="">-- Seleccione un estado --</option>
+                        <option value="true">Activo</option>
+                        <option value="false">Inactivo</option>
+                    </select>
+                    <span asp-validation-for="NuevoProducto.Estado" class="text-danger small"></span>
+                </div>
+
+                <div class="d-flex gap-2">
+                    <button type="submit" class="btn btn-modern-primary btn-sm flex-fill d-flex align-items-center justify-content-center gap-2">
+                        Guardar
+                    </button>
+                    <a asp-action="Index" class="btn btn-modern-outline btn-sm flex-fill d-flex align-items-center justify-content-center gap-2">
+                        Cancelar
+                    </a>
+                </div>
+            </form>
         </div>
     </div>
 </div>

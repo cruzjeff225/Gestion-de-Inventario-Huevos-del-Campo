@@ -1,82 +1,45 @@
 ﻿@model Gestión_de_Inventario_Huevos_del_Campo.Models.Usuarios
 
 @{
-    ViewData["Title"] = "Eliminar Usuario";
+    ViewData["Title"] = "Eliminando usuario";
 }
 
-<style>
-    body {
-        background-color: #ede6e9;
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        color: #171d18;
-        margin: 0;
-    }
+<div class="container d-flex justify-content-center align-items-center min-vh-100">
+    <div class="product-form-card-modern shadow-sm border-0 w-100" style="max-width: 420px;">
+        <div class="card-body p-4 p-md-5">
+            <div class="text-center mb-4">
+                <div class="product-avatar-modern mx-auto mb-3" style="background: linear-gradient(135deg, #e0e7ef 60%, #f8fafc 100%);">
+                    <i class="fas fa-user-times fa-lg text-secondary"></i>
+                </div>
+                <h2 class="fw-semibold mb-1 modern-title" style="color:#e74c3c;">Eliminar Usuario</h2>
+                <p class="text-muted mb-0 small">¿Estás seguro de que deseas eliminar este usuario?</p>
+            </div>
 
-    h2 {
-        color: #dc3545;
-        font-weight: 600;
-        margin-bottom: 1.5rem;
-    }
+            <dl class="row mb-4 px-2">
+                <dt class="col-6 modern-label fw-semibold">Nombre</dt>
+                <dd class="col-6 text-end">@Model.Nombre</dd>
 
-    .card {
-        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-        border-radius: 10px;
-        padding: 2rem;
-        background-color: #ffffff;
-        margin-top: 2rem;
-    }
+                <dt class="col-6 modern-label fw-semibold">Apellido</dt>
+                <dd class="col-6 text-end">@Model.Apellido</dd>
 
-    .form-group {
-        margin-bottom: 1rem;
-    }
+                <dt class="col-6 modern-label fw-semibold">Correo Electrónico</dt>
+                <dd class="col-6 text-end">@Model.CorreoElectronico</dd>
 
-    .btn-danger {
-        background-color: #dc3545;
-        border-color: #dc3545;
-        padding: 0.7rem 1.5rem;
-        border-radius: 8px;
-    }
-
-        .btn-danger:hover {
-            background-color: #b52a37;
-            border-color: #a71d2a;
-        }
-
-    .btn-secondary {
-        background-color: #6c757d;
-        border-color: #6c757d;
-        padding: 0.7rem 1.5rem;
-        border-radius: 8px;
-    }
-
-        .btn-secondary:hover {
-            background-color: #5a6268;
-            border-color: #4e555b;
-        }
-</style>
-
-<div class="container mt-5">
-    <h2>¿Está seguro que desea eliminar este usuario?</h2>
-    <div class="card">
-        <div class="card-body">
-            <dl class="row">
-                <dt class="col-sm-3">Nombre</dt>
-                <dd class="col-sm-9">@Model.Nombre</dd>
-
-                <dt class="col-sm-3">Apellido</dt>
-                <dd class="col-sm-9">@Model.Apellido</dd>
-
-                <dt class="col-sm-3">Correo Electrónico</dt>
-                <dd class="col-sm-9">@Model.CorreoElectronico</dd>
-
-                <dt class="col-sm-3">Fecha de Creación</dt>
-                <dd class="col-sm-9">@Model.FechaCreacion.ToString("dd/MM/yyyy HH:mm")</dd>
+                <dt class="col-6 modern-label fw-semibold">Fecha de Creación</dt>
+                <dd class="col-6 text-end">@Model.FechaCreacion.ToString("dd/MM/yyyy")</dd>
             </dl>
 
-            <form asp-action="Deleted" method="post">
+            <form asp-action="Deleted" method="post" autocomplete="off">
+                @Html.AntiForgeryToken()
                 <input type="hidden" asp-for="ID" />
-                <button type="submit" class="btn btn-danger">Eliminar</button>
-                <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+                <div class="d-flex gap-2">
+                    <button type="submit" class="btn btn-danger btn-sm flex-fill d-flex align-items-center justify-content-center gap-2" style="border-radius:0.5rem;">
+                        <i class="fas fa-trash"></i> Confirmar Eliminación
+                    </button>
+                    <a asp-action="Index" class="btn btn-modern-outline btn-sm flex-fill d-flex align-items-center justify-content-center gap-2" style="border-radius:0.5rem;">
+                        <i class="fas fa-arrow-left"></i> Cancelar
+                    </a>
+                </div>
             </form>
         </div>
     </div>
