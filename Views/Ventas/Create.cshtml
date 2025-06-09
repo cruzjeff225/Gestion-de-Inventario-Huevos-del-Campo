@@ -26,7 +26,7 @@
                 </div>
             }
 
-            <form asp-action="Create" method="post" autocomplete="off">
+            <form asp-action="Create" method="post" autocomplete="off" id="ventaForm">
                 <div class="form-group mb-3">
                     <label asp-for="Cliente" class="form-label fw-semibold modern-label">
                         <i class="fas fa-user me-2 text-muted"></i>Cliente
@@ -43,12 +43,29 @@
                     {
                         @for (int i = 0; i < productos.Count; i++)
                         {
-                            <div class="form-check mb-2 d-flex align-items-center gap-2">
-                                <input type="checkbox" class="form-check-input" name="productoIds" value="@productos[i].Id" id="producto_@i" />
-                                <label class="form-check-label flex-fill" for="producto_@i">
-                                    @productos[i].Nombre <span class="text-muted small">(@productos[i].Cantidad disponibles)</span>
-                                </label>
-                                <input type="number" name="cantidades" class="form-control modern-input ms-2" min="1" placeholder="Cantidad" style="max-width: 100px;" />
+                            <div class="row align-items-center mb-2">
+                                <div class="col-auto">
+                                    <input type="checkbox" class="form-check-input producto-checkbox" name="productoIds" value="@productos[i].Id" id="producto_@i" />
+                                </div>
+                                <div class="col">
+                                    <label class="form-check-label" for="producto_@i">
+                                        @productos[i].Nombre <span class="text-muted small">(@productos[i].Cantidad disponibles)</span>
+                                    </label>
+                                </div>
+                                <div class="col-auto" style="min-width:120px;">
+                                    <div class="position-relative" style="min-width: 90px;">
+                                        <input type="number"
+                                               name="cantidades"
+                                               class="form-control modern-input cantidad-input"
+                                               min="1"
+                                               max="@productos[i].Cantidad"
+                                               data-stock="@productos[i].Cantidad"
+                                               placeholder="Cantidad"
+                                               style="max-width: 90px;"
+                                               disabled />
+                                        <span class="invalid-feedback cantidad-feedback small"></span>
+                                    </div>
+                                </div>
                             </div>
                         }
                     }
@@ -73,11 +90,73 @@
 
 @section Scripts {
     <script>
-        document.querySelector('form').addEventListener('submit', function (e) {
+        // Habilitar/deshabilitar input de cantidad según el checkbox
+        document.querySelectorAll('.producto-checkbox').forEach(function (checkbox) {
+            const row = checkbox.closest('.row');
+            const cantidadInput = row.querySelector('.cantidad-input');
+            checkbox.addEventListener('change', function () {
+                cantidadInput.disabled = !checkbox.checked;
+                if (!checkbox.checked) {
+                    cantidadInput.classList.remove('is-invalid');
+                    cantidadInput.value = '';
+                    cantidadInput.parentElement.querySelector('.cantidad-feedback').textContent = "";
+                } else {
+                    cantidadInput.value = 1;
+                    cantidadInput.dispatchEvent(new Event('input'));
+                }
+            });
+        });
+
+        // Feedback visual para cantidad solo si el checkbox está marcado
+        document.querySelectorAll('.cantidad-input').forEach(function (input) {
+            input.addEventListener('input', function () {
+                const row = this.closest('.row');
+                const checkbox = row.querySelector('.producto-checkbox');
+                const stock = parseInt(this.getAttribute('data-stock'));
+                let valor = parseInt(this.value);
+                const feedback = this.parentElement.querySelector('.cantidad-feedback');
+
+                if (!checkbox.checked) {
+                    this.classList.remove('is-invalid');
+                    feedback.textContent = "";
+                    return;
+                }
+
+                if (valor > stock) {
+                    this.classList.add('is-invalid');
+                    feedback.textContent = "No puede ingresar una cantidad mayor al stock disponible (" + stock + ").";
+                } else if (valor < 1 || isNaN(valor)) {
+                    this.classList.add('is-invalid');
+                    feedback.textContent = "La cantidad debe ser al menos 1.";
+                } else {
+                    this.classList.remove('is-invalid');
+                    feedback.textContent = "";
+                }
+            });
+        });
+
+        // Validación al enviar el formulario
+        document.getElementById('ventaForm').addEventListener('submit', function (e) {
             const seleccionados = document.querySelectorAll('input[name="productoIds"]:checked');
             if (seleccionados.length === 0) {
                 e.preventDefault();
                 alert("Debe seleccionar al menos un producto.");
+                return;
+            }
+            let valid = true;
+            seleccionados.forEach(function (checkbox) {
+                const cantidadInput = checkbox.closest('.row').querySelector('.cantidad-input');
+                const stock = parseInt(cantidadInput.getAttribute('data-stock'));
+                const valor = parseInt(cantidadInput.value);
+                const feedback = cantidadInput.parentElement.querySelector('.cantidad-feedback');
+                if (!valor || valor < 1 || valor > stock) {
+                    cantidadInput.classList.add('is-invalid');
+                    feedback.textContent = "La cantidad ingresada no puede ser menor a 1 ni mayor al stock disponible.";
+                    valid = false;
+                }
+            });
+            if (!valid) {
+                e.preventDefault();
             }
         });
     </script>
